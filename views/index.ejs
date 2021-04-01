@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jsonDB</title>
+    <style>
+		body {
+			background-color: #050505;
+		}
+		.entry {
+			background-color: #202020;
+			padding: 2%;
+		}
+    </style>
+    <script src="../../socket.io/socket.io.js"></script>
+  </head>
+  <body>
+
+	<div id="entrylist">
+	</div>
+
+    <script>
+            var socket = io.connect('http://localhost:8080');
+
+            // append text if someone is online
+				socket.on('login', function(entries) {
+					entries.forEach(entry => {
+						var entrynode = document.createElement(`p`);
+						entrynode.onclick = `getEntry('${entry.id}')`;
+						entrynode.classList.add('entry');
+						entrynode.innerHTML = `${entry.name}`;
+						var entrylist = document.getElementById('entrylist');
+						entrylist.appendChild(entrynode);
+					});
+	            });
+
+            // ask password to login
+            var password = prompt('password');
+            socket.emit('password', password);
+
+    </script>
+  </body>
+</html>
