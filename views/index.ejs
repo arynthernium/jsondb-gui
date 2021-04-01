@@ -5,10 +5,16 @@
     <style>
 		body {
 			background-color: #050505;
+			color: #ddd;
 		}
 		.entry {
 			background-color: #202020;
 			padding: 2%;
+			color: #ddd;
+		}
+		.newEntryModalclosed {
+			display: none;
+			position: fixed;
 		}
     </style>
     <script src="../../socket.io/socket.io.js"></script>
@@ -16,6 +22,12 @@
   <body>
 
 	<div id="entrylist">
+	</div>
+
+	<div id="requestbox">
+		<textarea id="requestidbox" placeholder="request id..."></textarea>
+		<button id="requestbutton" onclick="requestEntry()">request entry</button>
+		<div id="returnEntryBox"></div>
 	</div>
 
     <script>
@@ -39,10 +51,36 @@
 				});
 	        });
 
-            // ask password to login
-            var password = prompt('password');
-            socket.emit('password', password);
+			socket.on('fail', function(entriesdata) {
+				console.log('password incorrect')
+	        });
 
+			socket.on('prompt', function() {
+				var password = prompt('password');
+				socket.emit('password', password);
+			});
+
+			function requestEntry() {
+				requestid = document.getElementById('requestidbox').value;
+				socket.emit('request', requestid);
+			}
+
+			socket.on('returnEntry', function(returnjson) {
+				console.log(returnjson);
+
+				returnjson.forEach(entry => {
+					console.log(JSON.stringify(entry));
+
+					var entrynode = document.createElement(`button`);
+					entrynode.classList.add('entry');
+					entrynode.innerHTML = `${entry.name}`;
+					entrynode.onclick = function() {
+						alert(`${entry.id}`);
+					};
+					var entrylist = document.getElementById('returnEntryBox');
+					entrylist.appendChild(entrynode);
+				});
+			});
     </script>
   </body>
 </html>
