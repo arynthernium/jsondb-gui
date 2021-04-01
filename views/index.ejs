@@ -11,15 +11,23 @@
 			background-color: #202020;
 			padding: 2%;
 			color: #ddd;
+			outline: none;
+			border: 2px solid #333;
+			border-radius: 15px;
+			margin: 5px;
 		}
-		.newEntryModalclosed {
+		.requestbox {
+			border: 2px solid #333;
+			border-radius: 15px;
+		}
+		#main {
 			display: none;
-			position: fixed;
 		}
     </style>
     <script src="../../socket.io/socket.io.js"></script>
   </head>
   <body>
+	  <div id="main">
 
 	<div id="entrylist">
 	</div>
@@ -30,6 +38,11 @@
 		<div id="returnEntryBox"></div>
 	</div>
 
+	<div id="newEntryBox">
+		<textarea id="newEntryInput"></textarea>
+		<button onclick="newEntry()">new entry</button>
+	</div>
+	</div>
     <script>
             var socket = io.connect('http://localhost:8080');
 
@@ -44,15 +57,28 @@
 					entrynode.classList.add('entry');
 					entrynode.innerHTML = `${entry.name}`;
 					entrynode.onclick = function() {
-						alert(`${entry.id}`);
+						alert(`${JSON.stringify(entry)}`);
 					};
 					var entrylist = document.getElementById('entrylist');
 					entrylist.appendChild(entrynode);
+
+					document.getElementById('main').style.display = 'initial';
 				});
 	        });
 
 			socket.on('fail', function(entriesdata) {
 				console.log('password incorrect')
+	        });
+
+			socket.on('listEntry', function(entry) {
+				var entrynode = document.createElement(`button`);
+				entrynode.classList.add('entry');
+				entrynode.innerHTML = `${entry.name}`;
+				entrynode.onclick = function() {
+					alert(`${JSON.stringify(entry)}`);
+				};
+				var entrylist = document.getElementById('entrylist');
+				entrylist.appendChild(entrynode);
 	        });
 
 			socket.on('prompt', function() {
@@ -81,6 +107,11 @@
 					entrylist.appendChild(entrynode);
 				});
 			});
+
+			function newEntry() {
+				entry = document.getElementById('newEntryInput').value;
+				socket.emit('writeEntry', entry);
+			}
     </script>
   </body>
 </html>
