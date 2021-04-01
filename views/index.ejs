@@ -22,19 +22,22 @@
             var socket = io.connect('http://localhost:8080');
 
             // append text if someone is online
-				socket.on('login', function(entriesdata) {
-					entries = JSON.parse(entriesdata)
+			socket.on('login', function(entriesdata) {
+				entries = JSON.parse(entriesdata)
 
-					entries.forEach(entry => {
-						console.log(JSON.stringify(entry));
+				entries.forEach(entry => {
+					console.log(JSON.stringify(entry));
 
-						var entrynode = document.createElement(`p`);
-						entrynode.classList.add('entry');
-						entrynode.innerHTML = `${entry.name}`;
-						var entrylist = document.getElementById('entrylist');
-						entrylist.appendChild(entrynode);
-					});
-	            });
+					var entrynode = document.createElement(`button`);
+					entrynode.classList.add('entry');
+					entrynode.innerHTML = `${entry.name}`;
+					entrynode.onclick = function() {
+						alert(`${entry.id}`);
+					};
+					var entrylist = document.getElementById('entrylist');
+					entrylist.appendChild(entrynode);
+				});
+	        });
 
             // ask password to login
             var password = prompt('password');

@@ -15,18 +15,12 @@ io.sockets.on('connection', function(socket) {
         if (password == process.env.password) {
 			console.log('Client logged in as: '+ socket.id);
 
-			var jsondata = JSON.parse(fs.readFileSync('table.json')
-			);
-			console.log(JSON.stringify(jsondata));
+			var jsondata = `[{"id": "123","name": "jared"},{"id": "1234","name": "john"}]`
+			console.log(JSON.parse(jsondata));
 
-			jsondata.forEach(entry => {
-				console.log(JSON.stringify(entry));
-				console.log(entry.name)
-			});
-
-			io.send('login', `${JSON.stringify(jsondata)}`);
+			io.emit('login', jsondata);
 		} else {
-			io.send('fail')
+			io.emit('fail')
 			console.log('Failed login with: ' + password)
 		}
     });
