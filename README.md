@@ -6,4 +6,4 @@ Terrible practice. Never going to be useful.
 
 
 # Packages
-Uses ExpressJS, dotenv, and socket.io.
+Uses ExpressJS, dotenv, and socket.io. 
