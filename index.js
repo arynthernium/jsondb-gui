@@ -45,13 +45,14 @@ io.sockets.on('connection', function(socket) {
 		console.log(`Pre-write table: ${JSON.stringify(jsondata)}`);
 
 		var entry = [];
-		entry.unshift(uuidv4());
-		entry.concat(JSON.parse(entrydata));
+		entry._id = uuidv4();
+		entryname = JSON.parse(entrydata);
+		entry.name = entryname.name;
 
-		console.log(JSON.stringify(entry));
+		// jsondata = jsondata.concat(entry);
+		// console.log(JSON.stringify(jsondata));
 
-		jsondata.concat(entry);
-		console.log(JSON.stringify(jsondata));
+
 
 		// entry = JSON.parse(entrydata);
         // console.log('Writing entry: '+ JSON.stringify(entry));
