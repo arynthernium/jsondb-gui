@@ -35,24 +35,28 @@ io.sockets.on('connection', function(socket) {
         console.log('Requested entry: '+ requestid);
 
 			var jsondata = JSON.parse(fs.readFileSync('./json/table.json', 'utf8'));
-			returnjson = jp.query(jsondata, `$..[?(@.id =='${requestid}')]`);
+			returnjson = jp.query(jsondata, `$..[?(@._id =='${requestid}')]`);
 			console.log(returnjson);
-			io.emit('returnEntry', returnjson);
+			io.emit('returnEntry', JSON.stringify(returnjson));
     });
 
 	socket.on('writeEntry', function(entrydata) {
 		var jsondata = JSON.parse(fs.readFileSync('./json/table.json', 'utf8'));
 		console.log(`Pre-write table: ${JSON.stringify(jsondata)}`);
 
-		var entry = [];
-		entry._id = uuidv4();
-		entryname = JSON.parse(entrydata);
-		entry.name = entryname.name;
+		var entry = [{}];
+		entry[0]._id = uuidv4();
+		entrydataobj = JSON.parse(entrydata);
+		entry[0] = Object.assign(entry[0], entrydataobj);
 
-		// jsondata = jsondata.concat(entry);
-		// console.log(JSON.stringify(jsondata));
+		console.log(entry);
 
+		jsondata = jsondata.concat(entry);
+		console.log(jsondata);
 
+		fs.writeFileSync('./json/table.json', `${JSON.stringify(jsondata)}`, function(err) {
+		 	if (err) throw err;
+		});
 
 		// entry = JSON.parse(entrydata);
         // console.log('Writing entry: '+ JSON.stringify(entry));

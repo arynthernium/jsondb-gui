@@ -15,6 +15,8 @@
 			border: 2px solid #333;
 			border-radius: 15px;
 			margin: 5px;
+			display: block;
+			width: 30%;
 		}
 		.requestbox {
 			border: 2px solid #333;
@@ -93,15 +95,16 @@
 
 			socket.on('returnEntry', function(returnjson) {
 				console.log(returnjson);
+				returnjson = JSON.parse(returnjson);
 
 				returnjson.forEach(entry => {
 					console.log(JSON.stringify(entry));
 
 					var entrynode = document.createElement(`button`);
 					entrynode.classList.add('entry');
-					entrynode.innerHTML = `${entry.name}`;
+					entrynode.innerHTML = `${entry._id}`;
 					entrynode.onclick = function() {
-						alert(`${entry.id}`);
+						alert(`${JSON.stringify(entry)}`);
 					};
 					var entrylist = document.getElementById('returnEntryBox');
 					entrylist.appendChild(entrynode);
