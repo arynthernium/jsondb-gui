@@ -25,6 +25,14 @@
 		#main {
 			display: none;
 		}
+		#entryviewer {
+			position: absolute;
+			right: 0;
+			top: 0;
+			height: 100%;
+			width: 50%;
+			background-color: #606060;
+		}
     </style>
     <script src="../../socket.io/socket.io.js"></script>
   </head>
@@ -44,6 +52,9 @@
 		<textarea id="newEntryInput"></textarea>
 		<button onclick="newEntry()">new entry</button>
 	</div>
+	<div id="entryviewer">
+		
+	</div>
 	</div>
     <script>
             var socket = io.connect('http://localhost:8080');
@@ -60,7 +71,7 @@
 					entrynode.innerHTML = `${entry.name}`;
 					entrynode.onclick = function() {
 						alert(`${JSON.stringify(entry)}`);
-					};
+					}; // to be replaced with a view function
 					var entrylist = document.getElementById('entrylist');
 					entrylist.appendChild(entrynode);
 
