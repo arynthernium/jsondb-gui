@@ -64,6 +64,7 @@ io.sockets.on('connection', function(socket) {
 
 		var entry = [{}];
 		entry[0]._id = uuidv4();
+		entry[0]._date = new Date();
 		entrydataobj = JSON.parse(entrydata);
 		entry[0] = Object.assign(entry[0], entrydataobj);
 

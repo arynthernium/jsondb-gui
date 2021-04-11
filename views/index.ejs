@@ -33,6 +33,17 @@
 			width: 50%;
 			background-color: #606060;
 		}
+		#viewid {
+			text-align: center;
+		}
+		#viewentry {
+			resize: none;
+			width: 90%;
+			height: 70%;
+			white-space: pre-wrap;
+			display: block;
+			margin: auto;
+		}
     </style>
     <script src="../../socket.io/socket.io.js"></script>
   </head>
@@ -53,7 +64,8 @@
 		<button onclick="newEntry()">new entry</button>
 	</div>
 	<div id="entryviewer">
-		
+		<p id="viewid"></p>
+		<textarea id="viewentry" disabled></textarea>
 	</div>
 	</div>
     <script>
@@ -70,7 +82,7 @@
 					entrynode.classList.add('entry');
 					entrynode.innerHTML = `${entry.name}`;
 					entrynode.onclick = function() {
-						alert(`${JSON.stringify(entry)}`);
+						viewEntry(entry);
 					}; // to be replaced with a view function
 					var entrylist = document.getElementById('entrylist');
 					entrylist.appendChild(entrynode);
@@ -78,6 +90,11 @@
 					document.getElementById('main').style.display = 'initial';
 				});
 	        });
+
+			function viewEntry(entry) {
+				document.getElementById('viewid').innerHTML = entry._id;
+				document.getElementById('viewentry').value = JSON.stringify(entry, null, 2);
+			}
 
 			socket.on('fail', function(entriesdata) {
 				console.log('password incorrect')
