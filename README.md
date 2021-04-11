@@ -11,8 +11,12 @@ Uses ExpressJS, dotenv, and socket.io.
 # TODO
 - [x] Read JSON from file and send it to the client
 - [x] Login with password, checking against password stored in environment variable
-- [ ] Display full JSON entry on call
+- [x] Full entry viewer
 - [x] Make new entries
 - [x] Generate IDs randomly
 - [ ] Multiple tables
 - [ ] API instead of GUI interaction (important)
+	- [x] GET tables
+	- [x] GET entries from specific tables
+	- [ ] POST new table entries
+	- [ ] POST new table creation
