@@ -1,3 +1,6 @@
+### OUTDATED
+This project was dropped when I decided I wanted to have this be a functional api-focused database instead of only interacting with it through a GUI. I've moved this project to https://github.com/arynthernium/jsondb.
+
 # jsonDB
 A database project storing things in one big JSON file. (soon more than one file will be supported.)
 
